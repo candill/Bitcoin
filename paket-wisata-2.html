@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Header & Footer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for Heading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    .font-brand {
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 1.5px;
+    }
+    .glass {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+    }
+    
+    /* Navbar hide on scroll styles */
+    .main-header {
+      transition: transform 0.3s ease-out; /* Smooth transition for hiding/showing */
+    }
+    .main-header.hidden-nav {
+      transform: translateY(-100%); /* Move navbar completely out of view */
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-tl from-blue-50 via-white to-blue-100 min-h-screen text-gray-800">
+
+  <!-- Navbar -->
+  <header class="fixed w-full bg-white/90 shadow-md z-20 main-header" id="main-header">
+    <nav class="flex items-center justify-between px-6 py-3 max-w-7xl mx-auto">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center shadow">
+          <img
+            alt="Logo Lomboko Wanderlust, lingkaran biru dengan inisial LW putih, desain modern minimalis"
+            class="w-8 h-8 rounded-full"
+
+            onerror='this.style.display="none";this.parentNode.style.background="#1e40af";this.parentNode.innerHTML="<span style=\"color:white;font-size:20px;font-weight:bold;\">LW</span>";'
+          />
+        </div>
+        <a href="index.html" class="font-brand font-extrabold text-xl tracking-wider text-blue-700 hover:text-blue-800 transition">Lombok Wanderlust</a>
+
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex gap-6 font-medium text-gray-700">
+        <a href="paket-wisata.html" class="hover:text-blue-700 transition">Paket Wisata</a>
+        <a href="wisata.html" class="hover:text-blue-700 transition">Destinasi</a>
+        <a href="gallery.html" class="hover:text-blue-700 transition">Gallery</a>
+        <a href="#contact" class="hover:text-blue-700 transition">Kontak</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="lg:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white/95 shadow-lg py-4">
+      <a href="paket-wisata.html" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Paket Wisata</a>
+      <a href="wisata.html" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Destinasi</a>
+      <a href="gallery.html" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Galeri</a>
+      <a href="#contact" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Kontak</a>
+    </div>
+  </header>
+
+  <main class="pt-28 pb-10">
+    <section id="all-packages" class="max-w-7xl mx-auto px-6 py-10">
+      <div class="text-center mb-10">
+        <h1 class="font-brand text-4xl md:text-5xl font-bold text-blue-700 mb-3">Paket Wisata Lombok Wanderlust</h1>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Temukan lebih banyak petualangan menarik yang kami tawarkan!
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+
+        <!-- Paket Wisata BARU: Secret Island 5 Gilis Snorkeling Trip (Dipindahkan ke atas) -->
+        <div class="feature-card bg-white glass p-6 rounded-2xl shadow-lg group transition hover:shadow-2xl flex flex-col">
+          <div class="mb-5 flex justify-center">
+            <img
+              src="assets/images/ende-village.jpg"
+              alt="Sasak Tour"
+              class="rounded-lg feature-card-img"
+            />
+          </div>
+          <h3 class="font-bold text-lg text-blue-700 mb-2">Secret Island 5 Gilis Snorkeling Trip</h3>
+          <p class="text-gray-600 mb-4"><p>• Gili Gede<p>• Gili Renggit<p>• Gili Asahan<p>• Gili Layar<p>• Gili Goleng</p>
+          <div class="font-bold text-cyan-600 mb-0 text-lg">$85 <span class="text-sm text-gray-500">/ 2 people</span></div>
+          <a href="Secret-Island-5-Gilis-Snorkeling-Trip.html" class="text-blue-600 font-semibold hover:underline mt-auto">Lihat Detail & Pesan</a>
+        </div>
+
+        <!-- Paket Wisata BARU:  City Tour (Dipindahkan ke atas) -->
+        <div class="feature-card bg-white glass p-6 rounded-2xl shadow-lg group transition hover:shadow-2xl flex flex-col">
+          <div class="mb-5 flex justify-center">
+            <img
+              src="assets/images/selong-belanak.jpg"
+              alt="Snorkeling 3 Gilis"
+              class="rounded-lg feature-card-img"
+            />
+          </div>
+          <h3 class="font-bold text-lg text-blue-700 mb-2"> City Tour</h3>
+          <p class="text-gray-600 mb-2"><p>• Banyumulek <p>• Islamic Center<p>• Pura Lingsar</p>•</p>
+          <div class="font-bold text-cyan-600 mb-0 text-lg">$37 <span class="text-sm text-gray-500">/ 2 people</span></div>
+          <a href="City-Tour.html" class="text-blue-600 font-semibold hover:underline mt-auto">Lihat Detail & Pesan</a>
+        </div>
+
+        <!-- Paket Wisata 1: Shoping Souvenir Trip (Dipindahkan ke atas) -->
+        <div class="feature-card bg-white glass p-6 rounded-2xl shadow-lg group transition hover:shadow-2xl flex flex-col">
+          <div class="mb-5 flex justify-center">
+            <img
+               src="assets/images/selong-belanak.jpg"
+              alt="Secret Island 5 Gilis"
+              class="rounded-lg feature-card-img"
+            />
+          </div>
+          <h3 class="font-bold text-lg text-blue-700 mb-2">Shoping Souvenir Trip</h3>
+          <p class="text-gray-600 mb-1"><p>• Pearl Shop<p>• Food shop<p> • Pottery Village</p>Hand weaving village</p>
+          <div class="font-bold text-cyan-600 mb-2 text-lg">$30 <span class="text-sm text-gray-500">/ 2 people</span></div>
+          <a href="Shoping-Souvenir-Trip.html" class="text-blue-600 font-semibold hover:underline mt-auto">Lihat Detail & Pesan</a>
+        </div>
+
+        <!-- Paket Wisata 2:  Origin Lombok Daily Trip-->
+        <div class="feature-card bg-white glass p-6 rounded-2xl shadow-lg group transition hover:shadow-2xl flex flex-col">
+          <div class="mb-5 flex justify-center">
+            <img
+              src="assets/images/selong-belanak.jpg"
+              alt="Gili Kondo Trip"
+              class="rounded-lg feature-card-img"
+            />
+          </div>
+          <h3 class="font-bold text-lg text-blue-700 mb-2"> Origin Lombok Daily Trip</h3>
+          <p class="text-gray-600 mb-4"><p>• Banyumulek<p>• Sukarara<p>• Sade </p>• Selong Belanak</p>• Lancing/Mawun Beach</p>
+          <div class="font-bold text-cyan-600 mb-2 text-lg">$37 <span class="text-sm text-gray-500">/ 2 people</span></div>
+          <a href="Origin-Lombok-Daily-Trip.html" class="text-blue-600 font-semibold hover:underline mt-auto">Lihat Detail & Pesan</a>
+        </div>
+
+        <!-- Paket Wisata 3: Snorkeling & Village Daily Trip -->
+        <div class="feature-card bg-white glass p-6 rounded-2xl shadow-lg group transition hover:shadow-2xl flex flex-col">
+          <div class="mb-5 flex justify-center">
+            <img
+              src="assets/images/selong-belanak.jpg"
+              alt="City Tour"
+              class="rounded-lg feature-card-img"
+            />
+          </div>
+          <h3 class="font-bold text-lg text-blue-700 mb-2">Snorkeling & Village Daily Trip</h3>
+          <p class="text-gray-600 mb-4"><p>• Sukarara<p>• Gili Nanggu<p>• Gili Sudak/Gili Tangkong</p>• Gili Kedis</p>
+          <div class="font-bold text-cyan-600 mb-2 text-lg">$58 <span class="text-sm text-gray-500">/ 2 people</span></div>
+          <a href="Snorkeling-&-Village-Daily-Trip.html" class="text-blue-600 font-semibold hover:underline mt-auto">Lihat Detail & Pesan</a>
+        </div>
+
+        <!-- Paket Wisata 4: Waterfalls, village and nature daily trip -->
+        <div class="feature-card bg-white glass p-6 rounded-2xl shadow-lg group transition hover:shadow-2xl flex flex-col">
+          <div class="mb-5 flex justify-center">
+            <img
+              src="assets/images/selong-belanak.jpg"
+              alt="Shopping Souvenir"
+              class="rounded-lg feature-card-img"
+            />
+          </div>
+          <h3 class="font-bold text-lg text-blue-700 mb-2">Waterfalls village and nature daily trip</h3>
+          <p class="text-gray-600 mb-4"><p>• Sukarara<p>• Sendang Gile<p>• Tiu Kelep<p>• Senaru Traditional House</p>
+          <div class="font-bold text-cyan-600 mb-2 text-lg">$47 <span class="text-sm text-gray-500">/ 2 people</span></div>
+          <a href="Waterfalls-village-and-nature-daily-trip.html" class="text-blue-600 font-semibold hover:underline mt-auto">Lihat Detail & Pesan</a>
+        </div>
+
+     
+
+      </div>
+      <!-- Tombol "Kembali ke Paket Sebelumnya" -->
+      <div class="text-center mt-10">
+        <a href="paket-wisata.html" class="inline-block bg-blue-600 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300">
+          Kembali ke Paket Sebelumnya
+        </a>
+      </div>
+    </section>
+  </main>
+
+ 
+  <!-- Footer -->
+  <footer class="bg-blue-800 text-white mt-12 py-7">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 gap-4">
+      <div>
+        <span class="font-brand font-bold text-lg">Lombok Wanderlust</span> <span class="text-gray-300">© 2024</span>
+        <span class="text-gray-400 hidden md:inline-block ml-3">All Rights Reserved.</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="#explore" class="hover:underline text-gray-200">Paket Wisata</a>
+        <a href="#contact" class="hover:underline text-gray-200">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when a link is clicked (optional, but good UX)
+    document.querySelectorAll('#mobile-menu a').forEach(item => {
+      item.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    // Navbar Hide on Scroll JavaScript
+    let lastScrollTop = 0;
+    const mainHeader = document.getElementById('main-header');
+    const headerHeight = mainHeader.offsetHeight; // Get initial height of the header
+
+    window.addEventListener('scroll', () => {
+      let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (currentScroll > lastScrollTop && currentScroll > headerHeight) {
+        // Scrolling down and past the header height
+        mainHeader.classList.add('hidden-nav');
+      } else {
+        // Scrolling up or at the very top
+        mainHeader.classList.remove('hidden-nav');
+      }
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For Mobile or negative scrolling
+    });
+  </script>
+</body>
+</

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Lombok Wanderlust</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for Heading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    .font-brand {
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 1.5px;
+    }
+    .glass {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px) scale(1.025);
+      box-shadow: 0 8px 32px rgba(45,88,176,0.07);
+      background: rgba(255,255,255,0.90);
+    }
+    /* search-suggestion related styles */
+    .search-suggestion:focus-within .suggestion-list {
+      display: block;
+    }
+    .suggestion-list {
+      display: none;
+    }
+    /* Custom style for larger feature card images */
+    .feature-card-img {
+      width: 100%; /* Make image take full width of its container */
+      max-width: 180px; /* Increased max-width for better visibility */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: cover;
+    }
+
+    /* Carousel specific styles */
+    .carousel-slide {
+      display: none; /* Hide all slides by default */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+    .carousel-slide.active {
+      display: flex; /* Show active slide */
+      opacity: 1;
+    }
+    .carousel-nav-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 30; /* Above slides but below content */
+      transition: background-color 0.3s;
+    }
+    .carousel-nav-button:hover {
+      background-color: rgba(0,0,0,0.7);
+    }
+    .carousel-nav-button.prev {
+      left: 20px;
+    }
+    .carousel-nav-button.next {
+      right: 20px;
+    }
+    .carousel-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 30;
+    }
+    .carousel-indicator {
+      width: 12px;
+      height: 12px;
+      background-color: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .carousel-indicator.active {
+      background-color: white;
+      transform: scale(1.2);
+    }
+
+    /* Navbar hide on scroll styles */
+    .main-header {
+      transition: transform 0.3s ease-out; /* Smooth transition for hiding/showing */
+    }
+    .main-header.hidden-nav {
+      transform: translateY(-100%); /* Move navbar completely out of view */
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-tl from-blue-50 via-white to-blue-100 min-h-screen text-gray-800">
+
+  <!-- Navbar -->
+  <header class="fixed w-full bg-white/90 shadow-md z-20 main-header" id="main-header"> <!-- Added id and class -->
+    <nav class="flex items-center justify-between px-6 py-3 max-w-7xl mx-auto">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center shadow">
+          <img
+            src="assets/images/Logo.png"
+            alt="Logo Lomboko Wanderlust, lingkaran biru dengan inisial LW putih, desain modern minimalis"
+            class="w-8 h-8 rounded-full"
+            onerror='this.style.display="none";this.parentNode.style.background="#1e40af";this.parentNode.innerHTML="<span style=\"color:white;font-size:20px;font-weight:bold;\">LW</span>";'
+          />
+        </div>
+        <a href="index.html" class="font-brand font-extrabold text-xl tracking-wider text-blue-700 hover:text-blue-800 transition">Lombok Wanderlust</a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex gap-6 font-medium text-gray-700">
+        <a href="paket-wisata.html" class="hover:text-blue-700 transition">Paket Wisata</a>
+        <a href="wisata.html" class="hover:text-blue-700 transition">Destinasi</a>
+        <a href="gallery.html" class="hover:text-blue-700 transition">Gallery</a>
+        <a href="#contact" class="hover:text-blue-700 transition">Kontak</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="lg:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white/95 shadow-lg py-4">
+      <a href="paket-wisata.html" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Paket Wisata</a>
+      <a href="wisata.html" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Destinasi</a>
+      <a href="gallery.html" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Galeri</a>
+      <a href="#contact" class="block px-6 py-2 text-gray-700 hover:bg-blue-50 transition">Kontak</a>
+    </div>
+  </header>
+
+
+  <main class="pt-24">
+    <section class="max-w-4xl mx-auto px-6 py-10">
+      <div class="bg-white glass rounded-2xl shadow-xl p-8 md:p-10">
+        <h1 class="font-brand text-3xl md:text-4xl font-bold text-blue-700 mb-4 text-center">Paket Sasak Tour</h1>
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3b279da1-2bc3-4618-9772-e831692112f2.png" alt="Paket Sasak Tour" class="w-full h-auto rounded-lg mb-6">
+
+        <div class="detail-section text-gray-700">
+          <p class="text-lg font-semibold text-cyan-600 mb-4">Harga: Rp400.000 / orang</p>
+          <p>
+            Paket Sasak Tour adalah pengalaman yang dirancang untuk membawa Anda menjelajahi budaya dan tradisi masyarakat Sasak di Lombok. Dalam paket ini, Anda akan mengunjungi beberapa desa adat, melihat kerajinan tangan, dan menikmati keindahan alam Lombok.
+          </p>
+
+          <h2>Apa yang Termasuk dalam Paket?</h2>
+          <ul>
+            <li>
+              <h3>Tur Desa Sukarara</h3>
+              <p>
+                Kunjungi Desa Sukarara, pusat kerajinan tenun ikat, dan saksikan proses pembuatan kain tenun oleh pengrajin lokal.
+              </p>
+            </li>
+            <li>
+              <h3>Desa Sade</h3>
+              <p>
+                Menjelajahi Desa Sade, desa adat yang masih mempertahankan tradisi Sasak, dan belajar tentang kehidupan masyarakat setempat.
+              </p>
+            </li>
+            <li>
+              <h3>Pantai Kuta Lombok</h3>
+              <p>
+                Nikmati waktu santai di Pantai Kuta Lombok yang terkenal dengan pasir putihnya dan ombak yang indah.
+              </p>
+            </li>
+            <li>
+              <h3>Makan Siang</h3>
+              <p>
+                Makan siang di restoran lokal dengan menu khas Lombok.
+              </p>
+            </li>
+            <li>
+              <h3>Pemandu Lokal Berpengalaman</h3>
+              <p>
+                Anda akan didampingi oleh pemandu lokal yang ramah dan berpengalaman, siap membantu dan memberikan informasi menarik seputar budaya Sasak.
+              </p>
+            </li>
+          </ul>
+
+          <h2>Jadwal Perjalanan (Contoh)</h2>
+          <ol>
+            <li>**08:00 - 09:00:** Penjemputan dari hotel (area tertentu) dan transfer ke Desa Sukarara.</li>
+            <li>**09:00 - 10:30:** Kunjungan ke Desa Sukarara untuk melihat proses tenun.</li>
+            <li>**10:30 - 12:00:** Kunjungan ke Desa Sade untuk belajar tentang budaya Sasak.</li>
+            <li>**12:00 - 13:00:** Makan siang di restoran lokal.</li>
+            <li>**13:00 - 15:00:** Waktu bebas di Pantai Kuta Lombok.</li>
+            <li>**15:00 - 16:30:** Kembali ke hotel.</li>
+          </ol>
+
+          <h2>Yang Perlu Anda Bawa:</h2>
+          <ul>
+            <li>Pakaian yang nyaman dan sopan.</li>
+            <li>Uang tunai untuk pengeluaran pribadi.</li>
+            <li>Kamera untuk mengabadikan momen.</li>
+          </ul>
+
+          <p class="mt-6">
+            Paket "Sasak Tour" adalah pilihan sempurna untuk Anda yang ingin merasakan keindahan budaya dan alam Lombok dalam satu hari penuh petualangan. Pesan sekarang dan buat kenangan tak terlupakan!
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+  <!-- WhatsApp Button -->
+  <a href="#" onclick="bookViaWhatsApp()" class="inline-flex items-center justify-center gap-2 bg-green-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-green-600 hover:scale-105 transition-all duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    </svg>
+    Pesan via WhatsApp
+  </a>
+  
+  <!-- Email Button -->
+  <a href="#" onclick="bookViaEmail()" class="inline-flex items-center justify-center gap-2 bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-blue-600 hover:scale-105 transition-all duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+    Pesan via Email
+  </a>
+  
+  <!-- Telegram Button -->
+  <a href="#" onclick="bookViaTelegram()" class="inline-flex items-center justify-center gap-2 bg-cyan-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-cyan-600 hover:scale-105 transition-all duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+    Pesan via Telegram
+  </a>
+</div>
+
+<script>
+// Function to extract package details from the current page
+function getPackageDetailsFromPage() {
+  try {
+    // Get package name - look for h1 containing "Paket"
+    const packageNameElement = Array.from(document.querySelectorAll('h1')).find(h1 => 
+      h1.textContent.includes('Paket')
+    );
+    const packageName = packageNameElement ? 
+      packageNameElement.textContent.replace('Paket', '').trim() : 
+      'Paket Wisata';
+
+    // Get package price - look for common price patterns
+    const priceElement = Array.from(document.querySelectorAll('p, span, div')).find(el => {
+      const text = el.textContent.trim();
+      return text.includes('Rp') || text.includes('Harga') || text.includes('IDR');
+    });
+    
+    let priceValue = 0;
+    if (priceElement) {
+      const priceMatch = priceElement.textContent.match(/Rp\s*(\d[\d.,]*)/) || 
+                        priceElement.textContent.match(/(\d[\d.,]*)\s*(?:IDR|Rp)/);
+      if (priceMatch) {
+        priceValue = parseInt(priceMatch[1].replace(/[.,]/g, ''));
+      }
+    }
+
+    // Get minimum participants (default to 2 if not found)
+    const minPerson = 2;
+
+    // Get included destinations
+    const destinations = [];
+    const destinationElements = document.querySelectorAll('h3, h4');
+    destinationElements.forEach(el => {
+      if (el.textContent.trim() && !el.textContent.includes('Termasuk') && 
+          !el.textContent.includes('Jadwal') && !el.textContent.includes('Bawa')) {
+        destinations.push(el.textContent.trim());
+      }
+    });
+
+    return {
+      name: packageName,
+      price: priceValue,
+      minPerson: minPerson,
+      destinations: destinations.filter((v, i, a) => a.indexOf(v) === i).join(', ')
+    };
+  } catch (error) {
+    console.error('Error extracting package details:', error);
+    return {
+      name: 'Paket Wisata',
+      price: 0,
+      minPerson: 2,
+      destinations: 'Berbagai destinasi menarik'
+    };
+  }
+}
+
+// Function to create booking form
+function showBookingForm() {
+  const package = getPackageDetailsFromPage();
+  
+  // Create form HTML
+  const formHTML = `
+    <div id="booking-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="font-bold text-xl mb-4">Pesan ${package.name}</h3>
+        
+        <form id="booking-form">
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Nama Lengkap</label>
+            <input type="text" name="fullName" required 
+                   class="w-full px-3 py-2 border rounded-lg">
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Nomor HP</label>
+            <input type="tel" name="phone" required
+                   class="w-full px-3 py-2 border rounded-lg">
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Email</label>
+            <input type="email" name="email" required
+                   class="w-full px-3 py-2 border rounded-lg">
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Tanggal Tour</label>
+            <input type="date" name="tourDate" required
+                   class="w-full px-3 py-2 border rounded-lg">
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Jumlah Peserta</label>
+            <input type="number" name="participants" min="${package.minPerson}" 
+                   value="${package.minPerson}" required
+                   class="w-full px-3 py-2 border rounded-lg">
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Alamat Penjemputan (jika ada)</label>
+            <textarea name="pickup" class="w-full px-3 py-2 border rounded-lg"></textarea>
+          </div>
+          
+          <div class="flex justify-between mt-6">
+            <button type="button" onclick="closeBookingForm()" 
+                    class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+              Batal
+            </button>
+            <div class="flex gap-2">
+              <button type="button" onclick="submitBooking('whatsapp')" 
+                      class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                WhatsApp
+              </button>
+              <button type="button" onclick="submitBooking('email')" 
+                      class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                Email
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  
+  // Add to body
+  document.body.insertAdjacentHTML('beforeend', formHTML);
+}
+
+function closeBookingForm() {
+  const overlay = document.getElementById('booking-overlay');
+  if (overlay) overlay.remove();
+}
+
+function submitBooking(method) {
+  const form = document.getElementById('booking-form');
+  if (!form) return;
+  
+  const package = getPackageDetailsFromPage();
+  const formData = new FormData(form);
+  const customer = Object.fromEntries(formData.entries());
+  
+  const message = {
+    subject: `Pemesanan Paket ${package.name}`,
+    body: `Halo Lombok Wanderlust,\n\nSaya ingin memesan paket wisata dengan detail berikut:\n\n` +
+          `*Paket Wisata:* ${package.name}\n` +
+          `*Harga:* Rp${package.price.toLocaleString('id-ID')}/orang\n` +
+          `*Destinasi:* ${package.destinations}\n` +
+          `*Peserta Minimum:* ${package.minPerson} orang\n\n` +
+          `*Data Pemesan:*\n` +
+          `- Nama Lengkap: ${customer.fullName}\n` +
+          `- Nomor HP: ${customer.phone}\n` +
+          `- Email: ${customer.email}\n` +
+          `- Tanggal Tour: ${customer.tourDate}\n` +
+          `- Jumlah Peserta: ${customer.participants}\n` +
+          `- Alamat Penjemputan: ${customer.pickup || 'Tidak ada'}\n\n` +
+          `Saya ingin konfirmasi ketersediaan untuk tanggal tersebut dan informasi lebih lanjut mengenai:\n` +
+          `1. Prosedur pembayaran\n` +
+          `2. Yang perlu dipersiapkan\n` +
+          `3. Itinerary lengkap\n\n` +
+          `Terima kasih.\n\n` +
+          `Salam,\n${customer.fullName}`
+  };
+  
+  closeBookingForm();
+  
+  switch(method) {
+    case 'whatsapp':
+      window.open(`https://wa.me/62811222333?text=${encodeURIComponent(message.body)}`, '_blank');
+      break;
+    case 'email':
+      window.open(`mailto:support@lombokwanderlust.com?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(message.body)}`, '_blank');
+      break;
+    case 'telegram':
+      window.open(`https://t.me/lombokwanderlust?text=${encodeURIComponent(message.body)}`, '_blank');
+      break;
+  }
+}
+
+// Update your booking buttons to use this instead:
+function bookViaWhatsApp() { showBookingForm(); }
+function bookViaEmail() { showBookingForm(); }
+function bookViaTelegram() { showBookingForm(); }
+</script>
+
+<style>
+  /* Add this to your CSS */
+  #booking-form input, #booking-form textarea {
+    transition: all 0.3s;
+  }
+  #booking-form input:focus, #booking-form textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+</style>
+</script>
+
+          </div>
+        </div>
+        <div class="mt-8 text-center">
+          <a href="paket-wisata.html" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-blue-700 transition">
+            &larr; Kembali ke Daftar Paket Wisata
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="bg-blue-800 text-white mt-12 py-7">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 gap-4">
+      <div>
+        <span class="font-brand font-bold text-lg">Lombok Wanderlust</span> <span class="text-gray-300">© 2024</span>
+        <span class="text-gray-400 hidden md:inline-block ml-3">All Rights Reserved.</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="#explore" class="hover:underline text-gray-200">Paket Wisata</a>
+        <a href="#contact" class="hover:underline text-gray-200">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when a link is clicked (optional, but good UX)
+    document.querySelectorAll('#mobile-menu a').forEach(item => {
+      item.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    // --- Carousel JavaScript ---
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicatorsContainer = document.getElementById('carousel-indicators');
+    const totalSlides = slides.length;
+    let slideInterval;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) {
+          slide.classList.add('active');
+        }
+      });
+      updateIndicators(index);
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function createIndicators() {
+      indicatorsContainer.innerHTML = ''; // Clear existing indicators
+      for (let i = 0; i < totalSlides; i++) {
+        const indicator = document.createElement('div');
+        indicator.classList.add('carousel-indicator');
+        indicator.addEventListener('click', () => showSlide(i));
+        indicatorsContainer.appendChild(indicator);
+      }
+      updateIndicators(0); // Set initial active indicator
+    }
+
+    function updateIndicators(index) {
+      const indicators = document.querySelectorAll('.carousel-indicator');
+      indicators.forEach((indicator, i) => {
+        indicator.classList.remove('active');
+        if (i === index) {
+          indicator.classList.add('active');
+        }
+      });
+    }
+
+    function startAutoSlide() {
+      slideInterval = setInterval(nextSlide, 8000); // Changed from 5000ms to 8000ms (8 seconds)
+    }
+
+    function stopAutoSlide() {
+      clearInterval(slideInterval);
+    }
+
+    // Event Listeners for Navigation Buttons
+    document.querySelector('.carousel-nav-button.next').addEventListener('click', () => {
+      stopAutoSlide();
+      nextSlide();
+      startAutoSlide(); // Restart auto-slide after manual navigation
+    });
+
+    document.querySelector('.carousel-nav-button.prev').addEventListener('click', () => {
+      stopAutoSlide();
+      prevSlide();
+      startAutoSlide(); // Restart auto-slide after manual navigation
+    });
+
+    // Initialize carousel on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      createIndicators();
+      showSlide(0); // Show the first slide
+      startAutoSlide(); // Start auto-sliding
+    });
+
+    // Pause auto-slide on hover (optional)
+    document.getElementById('hero-carousel').addEventListener('mouseenter', stopAutoSlide);
+    document.getElementById('hero-carousel').addEventListener('mouseleave', startAutoSlide);
+
+
+    // --- Navbar Hide on Scroll JavaScript ---
+    let lastScrollTop = 0;
+    const mainHeader = document.getElementById('main-header');
+    const headerHeight = mainHeader.offsetHeight; // Get initial height of the header
+
+    window.addEventListener('scroll', () => {
+      let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (currentScroll > lastScrollTop && currentScroll > headerHeight) {
+        // Scrolling down and past the header height
+        mainHeader.classList.add('hidden-nav');
+      } else {
+        // Scrolling up or at the very top
+        mainHeader.classList.remove('hidden-nav');
+      }
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For Mobile or negative scrolling
+    });
+
+  </script>
+</body>
+</html>
